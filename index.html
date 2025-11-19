@@ -1,0 +1,695 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Rehman Shaik — Premium PV Portfolio (Neon Final)</title>
+<style>
+  :root{
+    --primary:#31487A;
+    --accent:#6EA1D9;
+    --accent-strong:#4EA8FF;
+    --bg:#05060A;
+    --card-bg: rgba(10,12,18,0.64);
+    --soft-white:#eaf4ff;
+    --muted:#9fbfdb;
+    --transition: 260ms cubic-bezier(.2,.9,.3,1);
+    --pulse-duration: 900ms;
+    --glow-strong: 26px;
+    --glow-intensity: 0.36;
+    --nav-height: 72px;
+  }
+  *{box-sizing:border-box}
+  html,body{
+    height:100%;margin:0;padding:0;
+    font-family:Inter, Poppins, system-ui, -apple-system, 'Segoe UI', Roboto, Arial;
+    background:
+      radial-gradient(1200px 800px at 10% 10%, rgba(46,60,92,0.06), transparent),
+      linear-gradient(180deg,#04050A 0%, var(--bg) 100%);
+    color:var(--soft-white);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  body {opacity:0; transform:translateY(12px); animation:fadeInUp 620ms ease-out forwards;}
+  @keyframes fadeInUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+  a{color:inherit;text-decoration:none}
+  small{color:var(--muted)}
+
+  /* NAV */
+  .nav{
+    position:fixed;left:50%;top:18px;transform:translateX(-50%);z-index:2000;
+    width:92%;max-width:1400px;padding:14px 26px;border-radius:40px;
+    display:flex;align-items:center;justify-content:space-between;gap:12px;
+    background: linear-gradient(180deg, rgba(10,12,18,0.64), rgba(5,6,10,0.45));
+    backdrop-filter: blur(10px);
+    border:1px solid rgba(110,161,217,0.06);
+    box-shadow: 0 6px 30px rgba(33,50,80,0.55);
+    transition: box-shadow var(--transition), transform var(--transition), padding .25s ease;
+  }
+  .pro-nav {
+    backdrop-filter: blur(14px);
+    background: rgba(10,12,18,0.55);
+    border: 1px solid rgba(110,161,217,0.10);
+    box-shadow: 0 8px 40px rgba(10,22,45,0.65);
+  }
+  .pro-nav.shrink {
+    padding:8px 20px !important;
+    transform: translateY(-2px) scale(0.985);
+    box-shadow: 0 4px 22px rgba(12,20,30,0.75);
+  }
+
+  .nav-left{display:flex;align-items:center;gap:12px}
+  .nav-logo-wrap{display:flex;align-items:center;gap:12px}
+  .logo-circle{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(110,161,217,0.03);border:1px solid rgba(110,161,217,0.06)}
+  .logo-text{font-weight:700;color:var(--soft-white);font-size:14px}
+
+  .nav-right{display:flex;gap:18px;align-items:center;position:relative}
+  .pro-links { position: relative; display:flex; align-items:center; gap:22px; }
+
+  .nav-item{
+    padding:8px 12px;border-radius:10px;color:var(--muted);font-weight:600;position:relative;transition:all 200ms ease;
+  }
+  .nav-item:hover{ color:var(--accent-strong); transform:translateY(-3px) }
+  .nav-item.active{ color:var(--accent-strong); }
+
+  .active-indicator {
+    position: absolute;
+    height: 4px;
+    background: linear-gradient(90deg, rgba(78,168,255,0.98), rgba(110,161,217,0.85));
+    border-radius: 6px;
+    bottom: -8px;
+    left: 0;
+    width: 0;
+    transition: all .28s cubic-bezier(.2,.9,.3,1);
+    box-shadow: 0 0 22px rgba(78,168,255,0.55);
+    transform-origin: left center;
+  }
+
+  .nav-toggle {
+    display: none;
+    font-size: 22px;
+    cursor: pointer;
+    color: var(--soft-white);
+    background: transparent;
+    border: none;
+    padding: 8px;
+    border-radius: 8px;
+  }
+  .nav-toggle:focus{ outline:2px solid rgba(78,168,255,0.12) }
+
+  @media (max-width: 820px) {
+    .nav{ padding:10px 14px }
+    .pro-links {
+      position: fixed;
+      top: calc(var(--nav-height) + 8px);
+      left: 0;
+      width: 100%;
+      padding: 18px 0;
+      background: rgba(8,10,16,0.96);
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-8px);
+      transition: all .26s ease;
+      border-bottom: 1px solid rgba(110,161,217,0.08);
+      z-index: 1999;
+    }
+
+    .pro-links.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .nav-toggle { display:block; margin-left: 8px; }
+    .nav-item { padding: 10px 14px; width: 100%; text-align: center; }
+    .active-indicator { display:none; }
+  }
+
+  /* layout */
+  .page{ min-height:100vh; padding:120px 20px 120px; display:flex;align-items:center;justify-content:center; position:relative;overflow:hidden; }
+  .hero-grid{ width:100%;max-width:1200px;margin:0 auto; display:grid; grid-template-columns:420px 1fr; gap:48px; align-items:center; }
+  @media (max-width:960px){ .hero-grid{grid-template-columns:1fr; gap:30px} }
+
+  .frame{
+    width:360px;height:360px;border-radius:50%;overflow:hidden;display:flex;align-items:center;justify-content:center;
+    background: linear-gradient(180deg, rgba(8,10,18,0.6), rgba(15,18,30,0.35));
+    border: 2px solid rgba(110,161,217,0.08); position:relative; box-shadow: 0 20px 60px rgba(6,8,12,0.6);
+    transition: transform var(--transition), box-shadow var(--transition), filter var(--transition);
+  }
+  .frame::before{ content:''; position:absolute; inset:0; border-radius:50%; box-shadow: 0 0 48px rgba(110,161,217,0.04) inset; }
+  .frame::after{
+    content:''; position:absolute; inset:-12px; border-radius:50%;
+    background: radial-gradient(circle at 30% 20%, rgba(110,161,217,0.14), transparent 18%), conic-gradient(from 0deg, var(--accent), rgba(70,152,230,0.6), var(--accent));
+    filter: blur(28px); opacity:.48; z-index:-1; transition: all 6s linear; animation: spin 14s linear infinite;
+    box-shadow: 0 0 var(--glow-strong) rgba(110,161,217,var(--glow-intensity));
+  }
+  @keyframes spin{100%{transform:rotate(360deg)}}
+  .frame img{ width:100%; height:100%; object-fit:cover; border-radius:50%; display:block; }
+
+  .frame:hover{ transform: translateY(-6px) scale(1.01); box-shadow: 0 28px 90px rgba(78,168,255,0.14); }
+
+  .neon-frame-pulse {
+    animation: framePulse var(--pulse-duration) ease-out;
+  }
+  @keyframes framePulse {
+    0% { box-shadow: 0 6px 24px rgba(78,168,255,0.06); transform: scale(0.985); filter:brightness(0.95) }
+    40% { box-shadow: 0 28px 100px rgba(78,168,255,0.18); transform: scale(1.02); filter:brightness(1.12) }
+    100% { box-shadow: 0 18px 56px rgba(78,168,255,0.12); transform: scale(1); filter:brightness(1) }
+  }
+
+  .text-panel{ max-width:720px }
+  .name{ font-size:44px; color:var(--accent-strong); margin:0 0 10px; text-shadow: 0 8px 34px rgba(78,168,255,0.06) }
+  .role{ color:var(--muted); margin-bottom:14px; font-weight:600 }
+  .bio{ color:#dbeefc; line-height:1.75; margin-bottom:20px }
+  .cta{
+    display:inline-block;padding:12px 20px;border-radius:14px; background: linear-gradient(90deg,var(--accent-strong),var(--primary));
+    font-weight:700;color:#001;text-decoration:none; box-shadow:0 12px 44px rgba(78,168,255,0.10); transition: transform var(--transition), box-shadow var(--transition);
+  }
+  .cta:hover{ transform: translateY(-3px) scale(1.02); box-shadow: 0 22px 60px rgba(78,168,255,0.16) }
+
+  .content-card{
+    max-width:1100px;margin:40px auto;padding:32px;border-radius:14px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+    border:1px solid rgba(110,161,217,0.06); box-shadow: 0 12px 48px rgba(2,6,12,0.66);
+    transition: box-shadow var(--transition), transform var(--transition);
+  }
+  .content-card:hover{ box-shadow: 0 26px 86px rgba(14,24,46,0.78), 0 0 58px rgba(110,161,217,0.06) inset; transform: translateY(-4px); }
+  .content-card h2{ color:var(--accent-strong); margin:0 0 10px; position:relative; display:inline-block; }
+  .content-card h2::after{
+    content:''; position:absolute; left:0; right:0; height:6px; bottom:-8px; border-radius:6px;
+    background: linear-gradient(90deg, rgba(110,161,217,0.22), rgba(78,168,255,0.14)); filter: blur(10px);
+    box-shadow: 0 0 var(--glow-strong) rgba(110,161,217,var(--glow-intensity));
+  }
+
+  .skills-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(220px,1fr)); gap:16px; margin-top:18px; }
+  .skill-box{
+    padding:18px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.02));
+    border:1px solid rgba(110,161,217,0.03); color:var(--muted);
+    transition: transform var(--transition), box-shadow var(--transition), color var(--transition);
+  }
+  .skill-box:hover{
+    transform: translateY(-6px); color:var(--accent-strong);
+    box-shadow: 0 18px 46px rgba(78,168,255,0.08), 0 0 26px rgba(110,161,217,0.06);
+  }
+
+  .view{ position:absolute; inset:0; display:flex; align-items:center; justify-content:center; opacity:0; pointer-events:none; transform:translateY(10px); transition: all .6s cubic-bezier(.2,.9,.3,1); padding: 40px 12px; }
+  .view.active{ opacity:1; pointer-events:auto; transform:translateY(0); }
+  .view.anim-out{ transform: translateX(-40px); opacity:0; }
+  .view.anim-in{ transform: translateX(0); opacity:1; }
+
+  .svg-neon path, .svg-neon line, .svg-neon rect, .svg-neon circle { stroke-linecap:round; stroke-linejoin:round; stroke-width:1.9; stroke:var(--accent-strong); fill:none; }
+  .svg-neon .glow { filter: drop-shadow(0 0 12px rgba(78,168,255,0.30)); transition: filter 220ms ease; }
+  .pulse-on .svg-neon .glow { filter: drop-shadow(0 0 28px rgba(78,168,255,0.40)); transform: scale(1.02); }
+
+  @media (max-width:520px){
+    .name{font-size:30px}
+    .frame{width:220px;height:220px}
+    .hero-grid{gap:20px}
+    .content-card{padding:20px}
+    .nav{padding:10px 12px}
+    .nav-right a{padding:6px 10px;font-size:14px}
+  }
+
+  .sr-only{position:absolute;height:1px;width:1px;overflow:hidden;left:-9999px}
+</style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <header class="nav pro-nav" id="nav" role="banner" aria-label="Main navigation">
+    <div class="nav-left" style="align-items:center;">
+      <div class="nav-logo-wrap" aria-hidden="true">
+        <div class="logo-circle" aria-hidden="true">
+          <svg width="44" height="44" viewBox="0 0 44 44" fill="none" role="img" aria-hidden="true">
+            <circle cx="22" cy="22" r="20" fill="rgba(110,161,217,0.03)"></circle>
+            <text x="50%" y="50%" text-anchor="middle" dominant-baseline="middle"
+                  fill="#eaf4ff" font-size="14" font-weight="700"
+                  font-family="Inter, Poppins">RS</text>
+          </svg>
+        </div>
+        <div class="logo-text">Rehman Shaik</div>
+      </div>
+
+      <button class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navLinks" aria-label="Toggle menu">☰</button>
+    </div>
+
+    <nav class="nav-right pro-links" id="navLinks" aria-label="Primary">
+      <a href="#home" data-route="home" class="nav-item active" role="link">Home</a>
+      <a href="#about" data-route="about" class="nav-item" role="link">About</a>
+      <a href="#skills" data-route="skills" class="nav-item" role="link">Skills</a>
+      <a href="#education" data-route="education" class="nav-item" role="link">Education</a>
+      <a href="#certificates" data-route="certificates" class="nav-item" role="link">Certificates</a>
+      <a href="#contact" data-route="contact" class="nav-item" role="link">Contact</a>
+
+      <span class="active-indicator" aria-hidden="true"></span>
+    </nav>
+  </header>
+
+<main id="app" style="position:relative;min-height:100vh;padding-top:calc(var(--nav-height) + 18px);">
+
+  <!-- HOME -->
+  <section id="view-home" class="view active" aria-hidden="false">
+    <div class="page" role="region" aria-label="Home">
+      <div class="hero-grid" aria-hidden="false">
+        <div class="frame neon-frame-pulse" id="homeFrame"><img src="https://dqzpeachjshsmmygnkdp.supabase.co/storage/v1/object/public/Photography/Mee.jpeg" alt="Rehman"></div>
+        <div class="text-panel">
+          <h1 class="name neon-heading">Rehman Shaik</h1>
+          <div class="role">Pharmacovigilance • Drug Safety • ICSR • MedDRA</div>
+          <p class="bio">I am a focused and detail-oriented Pharmacovigilance aspirant trained in AE/SAE identification, ICSR processing, MedDRA coding (basic level), narrative writing, and safety workflow understanding. I am passionate about maintaining data accuracy, regulatory compliance, and patient safety while contributing to high-quality drug safety operations. My goal is to grow in a challenging environment where I can continuously learn, collaborate, and contribute to impactful Pharmacovigilance and Clinical Data Management work.</p>
+          <a class="cta" data-route="about" role="button">Explore About</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="view-about" class="view" aria-hidden="true">
+    <div class="page" role="region" aria-label="About">
+      <div class="hero-grid" style="align-items:center">
+        <div class="frame"><img src="https://dqzpeachjshsmmygnkdp.supabase.co/storage/v1/object/public/Photography/Mee.jpeg" alt="Rehman"></div>
+        <div class="text-panel">
+          <h1 class="name neon-heading">About — Rehman Shaik</h1>
+          <div class="role">Pharmacovigilance • Patient Safety</div>
+          <p class="bio">I focus on ICSR processing, AE/SAE identification, MedDRA basics and narrative writing. My aim is accurate safety surveillance and high-quality case documentation.</p>
+          <a class="cta" data-route="skills" role="button">See Skills</a>
+        </div>
+      </div>
+
+      <div class="content-card" style="margin-top:36px">
+        <h2 class="neon-heading">Who I Am</h2>
+        <p>I am a passionate Pharmacovigilance aspirant trained to identify, document, and report safety events. I value accuracy, compliance and clear narratives. I Would like to continue working with an organization which provides me right opportunity and
+ challenging work environment to explore my technical skills, enabling me in utilizing my skills to
+ scale new heights and achieve organizational goals. Skilled in strong understanding of AE/SAE case
+ processing, ICSR workflow, and Regulatory safety Reporting, Data Accuracy and Safety database
+ process.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="view-skills" class="view" aria-hidden="true">
+    <div class="page" role="region" aria-label="Skills">
+      <div class="hero-grid">
+        <div class="frame" style="display:flex;align-items:center;justify-content:center"><img src="https://dqzpeachjshsmmygnkdp.supabase.co/storage/v1/object/public/Photography/Mee.jpeg" alt=""></div>
+        <div class="text-panel">
+          <h1 class="name neon-heading">Skills</h1>
+          <div class="role">Core PV & Documentation</div>
+          <p class="bio">ICSR Processing · AE/SAE Classification · Narrative Writing · MedDRA (basic) · Safety Workflow · Excel for PV</p>
+          <a class="cta" data-route="education" role="button">Education</a>
+        </div>
+      </div>
+
+      <div class="content-card" style="margin-top:36px">
+        <div class="skills-grid">
+          <div class="skill-box">ICSR Processing</div>
+          <div class="skill-box">AE/SAE Classification</div>
+          <div class="skill-box">Narrative Writing</div>
+          <div class="skill-box">MedDRA Basics</div>
+
+          <div class="skill-box">Data Validation & Management</div>
+          <div class="skill-box">Case Triage & Data Entry</div>
+          <div class="skill-box">Signal Detection</div>
+          <div class="skill-box">Risk Management</div>
+          <div class="skill-box">ICH-GCP Guidelines</div>
+          <div class="skill-box">CRF Design</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section id="view-education" class="view" aria-hidden="true">
+    <div class="page" role="region" aria-label="Education">
+      <div class="hero-grid">
+        <div class="frame"><img src="https://dqzpeachjshsmmygnkdp.supabase.co/storage/v1/object/public/Photography/Mee.jpeg" alt=""></div>
+        <div class="text-panel">
+          <h1 class="name neon-heading">Education</h1>
+          <div class="role">B.Pharmacy</div>
+          <p class="bio"><strong>K.G.R.L College of Pharmacy, Andhra Pradesh (2021–2025)</strong><br><strong>Relevant Coursework:</strong> Pharmacology, Clinical Research</p>
+          <a class="cta" data-route="certificates" role="button">Certificates</a>
+        </div>
+      </div>
+
+      <div class="content-card" style="margin-top:36px">
+        <h2 class="neon-heading">Academic Background</h2>
+
+        <p>
+          <strong>College:</strong> K.G.R.L College of Pharmacy, Andhra Pradesh<br>
+          <strong>Passing Year:</strong> 2021–2025
+        </p>
+
+        <h3 style="color:var(--accent); margin-top:16px;">Academic Project</h3>
+        <p>
+          <strong>Project Title:</strong> A Study on Consumer Choice Between Generic and Branded Drugs Under Current Regulations in Bhimavaram<br>
+          <strong>Duration:</strong> Dec 2024 – April 2025
+        </p>
+
+        <p>
+          ⦁ Evaluated regulatory impacts on consumer choices and pharmaceutical market trends.<br>
+          ⦁ Led a team in conducting a comprehensive study on this project.<br>
+          ⦁ Collected and Analysed data from various sources using Microsoft Excel.
+        </p>
+
+        <h3 style="color:var(--accent); margin-top:16px;">Publications</h3>
+        <p>
+          My project work was published in the International Google Scholar indexed journal:<br>
+          <strong>Journal of Pharma Insights and Research</strong>, Vol 3, No.1 (2025), February Issue.
+        </p>
+
+        <h3 style="color:var(--accent); margin-top:16px;">Achievements & Participations</h3>
+        <p>
+          ⦁ Participated in the National Conference on Current Status & Prospects in Pharmaceutical Research and Global Pharmaceutical Regulatory Affairs.<br>
+          ⦁ Participated in the 26th Annual Convention and National Conference of the Society of Pharmacognosy.<br>
+          ⦁ Participated in Pro Milan 2024.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATES -->
+  <section id="view-certificates" class="view" aria-hidden="true">
+    <div class="page" role="region" aria-label="Certificates">
+      <div class="hero-grid">
+        <div class="frame"><img src="https://dqzpeachjshsmmygnkdp.supabase.co/storage/v1/object/public/Photography/Mee.jpeg" alt=""></div>
+        <div class="text-panel">
+          <h1 class="name neon-heading">Certificates</h1>
+          <div class="role">Relevant Training</div>
+          <p class="bio">Pharmacovigilance Foundation · ICH-GCP · Drug Safety Basics · Ongoing PV/CDM training</p>
+          <a class="cta" data-route="contact" role="button">Contact</a>
+        </div>
+      </div>
+
+      <div class="content-card" style="margin-top:36px">
+        <h2 class="neon-heading">Certifications & Training</h2>
+
+        <p>
+          <strong>Institute:</strong> Clini Launch Research Institute (CLRI)<br>
+          <strong>Duration:</strong> June 2025 – Nov 2025<br>
+          <strong>Program:</strong> Advanced Training in Clinical Data Management & Pharmacovigilance
+        </p>
+
+        <p>
+          ⦁ AE/SAE case processing, ICSR workflow<br>
+          ⦁ Narrative writing and Risk Management<br>
+          ⦁ Basics of Safety Database, Signal Detection, Argus Workflow<br>
+          ⦁ CRF Design, Discrepancy Management, Query Handling<br>
+          ⦁ Regulatory Compliance: ICH-GCP, WHO, FDA
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="view-contact" class="view" aria-hidden="true">
+    <div class="page" role="region" aria-label="Contact">
+      <div class="hero-grid">
+        <div class="frame"><img src="https://dqzpeachjshsmmygnkdp.supabase.co/storage/v1/object/public/Photography/Mee.jpeg" alt=""></div>
+
+        <div class="text-panel">
+          <h1 class="name neon-heading">Contact</h1>
+          <div class="role">Let’s Connect</div>
+          <p class="bio">Reach out to me securely through EmailJS or connect with me on LinkedIn.</p>
+
+          <div style="margin-top:20px; display:flex; gap:20px; align-items:center;">
+            <div id="emailButton" class="icon-wrap" role="button" tabindex="0" title="Send message" aria-label="Send message">
+              <svg class="svg-neon" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect class="glow" x="2.5" y="4.5" width="19" height="15" rx="2.2"></rect>
+                <path class="glow" d="M3.6 6.8L11.8 12.1L20.4 6.6"></path>
+              </svg>
+            </div>
+
+            <a href="https://www.linkedin.com/in/rehman-shaik-pv" target="_blank" rel="noopener" class="icon-wrap" title="LinkedIn" aria-label="LinkedIn">
+              <svg class="svg-neon" width="30" height="30" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                <rect class="glow" x="2.8" y="3.6" width="18.4" height="17.8" rx="2"></rect>
+                <path class="glow" d="M7.1 10.1V17.4"></path>
+                <circle class="glow" cx="7.06" cy="6.7" r="0.9"></circle>
+                <path class="glow" d="M11.6 10.1V17.4C11.6 17.4 11.6 10.1 14.9 10.1C17.3 10.1 17.4 12.6 17.4 14.4V17.4"></path>
+              </svg>
+            </a>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="content-card" style="margin-top:36px">
+        <h2 class="neon-heading">Get in touch</h2>
+        <p>
+          Thank you for taking the time to view my portfolio.<br><br>
+          I am truly passionate about building my career in <strong>Pharmacovigilance and Clinical Data Management</strong>, where precision, ethics and patient safety are at the core of every responsibility.<br><br>
+          I am eager to learn, grow and contribute meaningfully to an organization that values quality, teamwork and continuous improvement. If my dedication and skillset resonate with your team, I would be grateful for the opportunity to connect and explore how I can add value.<br><br>
+          I look forward to hearing from you and would be happy to discuss further.
+        </p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="sr-only" aria-hidden="true">
+  <img src="https://dqzpeachjshsmmygnkdp.supabase.co/storage/v1/object/public/Photography/Mee.jpeg" alt="">
+</div>
+
+<!-- Main interactive JS (runs after DOM ready) -->
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  const routes = ['home','about','skills','education','certificates','contact'];
+  const views = {};
+  routes.forEach(r => { views[r] = document.getElementById('view-'+r); });
+
+  const nav = document.getElementById('nav');
+  const navItems = Array.from(document.querySelectorAll('.nav-item'));
+  const indicator = document.querySelector('.active-indicator');
+  const navToggle = document.getElementById('navToggle');
+  const navLinksContainer = document.getElementById('navLinks');
+
+  // ensure required elements exist
+  function safe(el){ return !!el; }
+
+  // set active class on nav items
+  function setActive(route){
+    navItems.forEach(item => {
+      item.classList.toggle('active', item.dataset.route === route);
+    });
+  }
+
+  // show route with animation
+  let current = (location.hash.replace('#','') || 'home');
+  if(!routes.includes(current)) current = 'home';
+
+  function showRoute(route, pushState = true){
+    if(!routes.includes(route)) route = 'home';
+    if(route === current) return;
+
+    const outView = views[current];
+    const inView = views[route];
+
+    if(outView){
+      outView.classList.remove('active');
+      outView.classList.add('anim-out');
+    }
+
+    setTimeout(()=> {
+      if(outView){
+        outView.classList.remove('anim-out');
+        outView.style.opacity = 0;
+        outView.style.pointerEvents = 'none';
+      }
+
+      if(inView){
+        inView.classList.add('active','anim-in');
+        inView.style.opacity = 0;
+        inView.style.pointerEvents = 'none';
+        runNeonEntry(inView);
+        // force reflow then show
+        void inView.offsetWidth;
+        setTimeout(()=> {
+          inView.classList.remove('anim-in');
+          inView.style.opacity = 1;
+          inView.style.pointerEvents = 'auto';
+        }, 20);
+      }
+
+      current = route;
+      setActive(route);
+      moveIndicatorToActive();
+      if(pushState) history.pushState({route}, '', '#'+route);
+      window.scrollTo({top:0,behavior:'smooth'});
+    }, 220);
+  }
+
+  // initial display
+  function initialShow(){
+    routes.forEach(r => {
+      if(r === current && views[r]){
+        views[r].classList.add('active');
+        views[r].style.opacity = 1;
+        views[r].style.pointerEvents = 'auto';
+        runNeonEntry(views[r]);
+      } else if(views[r]){
+        views[r].style.opacity = 0;
+        views[r].style.pointerEvents = 'none';
+      }
+    });
+    setActive(current);
+    setTimeout(()=> {
+      moveIndicatorToActive();
+      nav.classList.add('show');
+    }, 280);
+  }
+
+  // attach clicks
+  document.addEventListener('click', (e)=>{
+    const t = e.target.closest('[data-route]');
+    if(t){
+      e.preventDefault();
+      const route = t.dataset.route;
+      showRoute(route);
+      // close mobile menu if open
+      if(navLinksContainer && navLinksContainer.classList.contains('open')){
+        navLinksContainer.classList.remove('open');
+        if(navToggle) navToggle.setAttribute('aria-expanded','false');
+      }
+    }
+  });
+
+  window.addEventListener('hashchange', ()=>{
+    const r = location.hash.replace('#','') || 'home';
+    if(routes.includes(r)) showRoute(r, false);
+  });
+
+  // keyboard accessibility
+  navItems.forEach(item=>{
+    item.addEventListener('keydown', e=>{
+      if(e.key === 'Enter' || e.key === ' ') { e.preventDefault(); item.click(); }
+    });
+  });
+
+  // neon entry animations
+  function runNeonEntry(viewEl){
+    if(!viewEl) return;
+    const frame = viewEl.querySelector('.frame');
+    const headings = viewEl.querySelectorAll('.neon-heading');
+    const cards = viewEl.querySelectorAll('.content-card');
+    const svgs = viewEl.querySelectorAll('.svg-neon');
+
+    if(frame){
+      frame.classList.add('neon-frame-pulse');
+      setTimeout(()=> frame.classList.remove('neon-frame-pulse'), parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pulse-duration')) || 900);
+    }
+
+    headings.forEach((h)=>{
+      h.classList.add('neon-heading');
+      const parentCard = h.closest('.content-card');
+      if(parentCard){
+        parentCard.classList.add('pulse-on');
+        setTimeout(()=> parentCard.classList.remove('pulse-on'), parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pulse-duration')) || 900);
+      }
+    });
+
+    cards.forEach((c)=>{
+      c.classList.add('pulse-on');
+      setTimeout(()=> c.classList.remove('pulse-on'), parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pulse-duration')) || 900);
+    });
+
+    svgs.forEach(s=>{
+      s.parentElement && s.parentElement.classList.add('pulse-on');
+      setTimeout(()=> { s.parentElement && s.parentElement.classList.remove('pulse-on') }, parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pulse-duration')) || 900);
+    });
+
+    const activeNav = document.querySelector('.nav-item.active');
+    if(activeNav){
+      activeNav.classList.remove('pulse-on');
+      void activeNav.offsetWidth;
+      activeNav.classList.add('pulse-on');
+      setTimeout(()=> activeNav.classList.remove('pulse-on'), parseInt(getComputedStyle(document.documentElement).getPropertyValue('--pulse-duration')) || 900);
+    }
+  }
+
+  // left/right arrow navigation
+  document.addEventListener('keydown', (e)=>{
+    if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){
+      const idx = routes.indexOf(current);
+      const next = e.key === 'ArrowRight' ? (idx+1)%routes.length : (idx-1+routes.length)%routes.length;
+      showRoute(routes[next]);
+    }
+  });
+
+  // Active indicator movement
+  function moveIndicatorToActive(){
+    if(!indicator) return;
+    const active = document.querySelector('.nav-item.active');
+    if(!active) {
+      indicator.style.width = '0';
+      return;
+    }
+    // Compute left relative to parent container
+    const parent = indicator.parentElement;
+    if(!parent) return;
+    // Use offsetLeft which is reliable here
+    const left = active.offsetLeft;
+    indicator.style.width = active.offsetWidth + 'px';
+    indicator.style.left = left + 'px';
+  }
+
+  // update on resize/load
+  window.addEventListener('resize', moveIndicatorToActive);
+  window.addEventListener('load', moveIndicatorToActive);
+
+  // scroll shrink
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 40) nav.classList.add('shrink');
+    else nav.classList.remove('shrink');
+  });
+
+  // mobile toggle
+  if(navToggle && navLinksContainer){
+    navToggle.addEventListener('click', ()=>{
+      const isOpen = navLinksContainer.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', String(isOpen));
+    });
+  }
+
+  // initialize
+  initialShow();
+});
+</script>
+
+<!-- EmailJS (kept but safe) -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function(){
+  try { if(window.emailjs) emailjs.init("gS-R_n8U8bCmTjta7"); } catch(e){ console.warn('EmailJS init error', e); }
+
+  const btn = document.getElementById("emailButton");
+  if(!btn) return;
+
+  function sendEmailJS(){
+    if(window.emailjs){
+      emailjs.send("service_g3zqzh8", "template_r1v3bnh", {
+          message: "A visitor clicked the contact button on your portfolio site."
+      })
+      .then(function() {
+          alert("Thank you! Your message has been sent successfully!");
+      }, function(error) {
+          alert("Oops! Something went wrong.");
+          console.log('EmailJS error:', error);
+      });
+    } else {
+      alert("Email service unavailable (running from local file). Please open this site via localhost or deploy to see contact functionality.");
+    }
+  }
+
+  btn.addEventListener('click', sendEmailJS);
+  btn.addEventListener('keydown', function(e){
+    if(e.key === 'Enter' || e.key === ' ') sendEmailJS();
+  });
+});
+</script>
+
+</body>
+</html>
